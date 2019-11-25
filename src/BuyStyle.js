@@ -14,7 +14,7 @@ class BuyStyle extends React.Component {
                     Buy {x} for 10 borkcoins
                 </div>)}
                     <div>
-                        {mappedStylesKeys.map((x) => x[1]===false && <div>and buy filled {x[0]} for moar money!</div>)}
+                        {mappedStylesKeys.map((x) => x[1]===true && <div>and buy filled {x[0]} for moar money!</div>)}
                     </div>
                 </div>
 
