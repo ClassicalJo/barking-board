@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/barking-board/static/css/main.2f177412.chunk.css",
-    "main.js": "/barking-board/static/js/main.9e58858a.chunk.js",
-    "main.js.map": "/barking-board/static/js/main.9e58858a.chunk.js.map",
+    "main.js": "/barking-board/static/js/main.3cd4e613.chunk.js",
+    "main.js.map": "/barking-board/static/js/main.3cd4e613.chunk.js.map",
     "runtime-main.js": "/barking-board/static/js/runtime-main.d541fa05.js",
     "runtime-main.js.map": "/barking-board/static/js/runtime-main.d541fa05.js.map",
     "static/js/2.fd111386.chunk.js": "/barking-board/static/js/2.fd111386.chunk.js",
     "static/js/2.fd111386.chunk.js.map": "/barking-board/static/js/2.fd111386.chunk.js.map",
     "index.html": "/barking-board/index.html",
-    "precache-manifest.fe29729f254cc29176beb966a3ad091d.js": "/barking-board/precache-manifest.fe29729f254cc29176beb966a3ad091d.js",
+    "precache-manifest.04f4ac0d3dee2463d332a5a1f45a7a62.js": "/barking-board/precache-manifest.04f4ac0d3dee2463d332a5a1f45a7a62.js",
     "service-worker.js": "/barking-board/service-worker.js",
     "static/css/main.2f177412.chunk.css.map": "/barking-board/static/css/main.2f177412.chunk.css.map"
   },
@@ -16,6 +16,6 @@
     "static/js/runtime-main.d541fa05.js",
     "static/js/2.fd111386.chunk.js",
     "static/css/main.2f177412.chunk.css",
-    "static/js/main.9e58858a.chunk.js"
+    "static/js/main.3cd4e613.chunk.js"
   ]
 }

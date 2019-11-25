@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/barking-board/precache-manifest.fe29729f254cc29176beb966a3ad091d.js"
+  "/barking-board/precache-manifest.04f4ac0d3dee2463d332a5a1f45a7a62.js"
 );
 
 self.addEventListener('message', (event) => {
