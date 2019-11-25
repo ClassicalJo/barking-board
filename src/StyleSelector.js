@@ -8,7 +8,7 @@ class StyleSelector extends React.Component {
                 <select ref="stylelist" onChange={this.props.onChange}>
                     {Object.keys(this.props.styles).map((x) =>
                         <option
-                            disabled={!this.props.styles[x]}
+                            disabled={!this.props.styles[x].bought}
                             key={x}
                             value={x}>
                             {x}
