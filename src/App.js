@@ -10,12 +10,12 @@ class App extends React.Component {
             currentStyleSelector: "lines",
             currentColorSelector: "#000000",
             currentTimesSelector: 1,
-            currentCoins: 10000,
+            currentCoins: 0,
             colorroulette: true,
             styleroulette: true,
             canvas: {
                 height: 400,
-                width: 500,
+                width: 800,
             },
             styles: {
 
@@ -110,7 +110,7 @@ class App extends React.Component {
                 <h1 className="add-shadow">🐶 Barking Board 🐕</h1>
                 <div id="main-screen">
                     <div className="add-shadow board">
-                        <canvas ref="canvas" id="barking-board" height={this.state.canvas.height} width={this.state.canvas.width}></canvas>
+                        <canvas ref="canvas" id="barking-board" width={this.state.canvas.width} height={this.state.canvas.height} ></canvas>
                         <div className="controls">
                             <input ref="timesselector" type="number" defaultValue={this.currentTimesSelector} onChange={this.handleOnChangeTimesSelector}></input>
                             <input type="button" value="draw" onClick={() => this.draw(this.state.currentTimesSelector)} />
@@ -256,15 +256,14 @@ class App extends React.Component {
 
     clear() {
         let ctx = this.refs.canvas.getContext("2d")
-        ctx.clearRect(0, 0, 500, 500);
-        ctx.clearRect(0, 0, 500, 500);
+        ctx.clearRect(0, 0, this.state.canvas.width, this.state.canvas.height);
     }
 
     drawLine(color) {
         let currentLineStyle = this.state.styles.lines.currentLineStyle
         let ctx = this.refs.canvas.getContext("2d")
-        let destinyX = random(500)
-        let destinyY = random(500)
+        let destinyX = random(this.state.canvas.width)
+        let destinyY = random(this.state.canvas.height)
         ctx.strokeStyle = color
         ctx.beginPath();
         ctx.moveTo(this.state.styles.lines[currentLineStyle].x, this.state.styles.lines[currentLineStyle].y)
@@ -274,8 +273,8 @@ class App extends React.Component {
 
     drawTriangle(color) {
         let ctx = this.refs.canvas.getContext("2d")
-        let originX = random(500)
-        let originY = random(500)
+        let originX = random(this.state.canvas.width)
+        let originY = random(this.state.canvas.height)
         ctx.strokeStyle = color
         ctx.beginPath();
         ctx.moveTo(originX, originY);
@@ -301,12 +300,12 @@ class App extends React.Component {
 
     drawPoints(number, color) {
         let ctx = this.refs.canvas.getContext("2d")
-        let originX = random(500)
-        let originY = random(500)
+        let originX = random(this.state.canvas.width)
+        let originY = random(this.state.canvas.height)
         ctx.strokeStyle = color
         ctx.beginPath();
         ctx.moveTo(originX, originY);
-        for (let i = 0; i < number; i++) { ctx.lineTo(random(500), random(500)); }
+        for (let i = 0; i < number; i++) { ctx.lineTo(random(this.state.canvas.width), random(this.state.canvas.height)); }
         ctx.lineTo(originX, originY);
         ctx.stroke();
     }
