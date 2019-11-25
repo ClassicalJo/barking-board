@@ -9,15 +9,15 @@ class BuyStyle extends React.Component {
 
         return (
             <div>
-                <div>{stylesKeys.map((x) => <div><input
+                <div className="buy-styles">{stylesKeys.map((x) => <div><input
                     onClick={this.props.onClick}
                     buystyle={x}
                     value={`Buy ${x} for 10 borkcoins`}
                     disabled={this.props.styles[x].bought}
                     /></div>)}
                 </div>
-                <div>
-                    {mappedStylesKeys.map((x) => x[1] === true && <div>and buy filled {x[0]} for moar money!</div>)}
+                <div className="style">
+                    {mappedStylesKeys.map((x) => x[1] === true && <div><p>💰 and buy filled {x[0]} for moar money!</p></div>)}
                 </div>
             </div>
         )
