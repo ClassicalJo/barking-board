@@ -345,7 +345,7 @@ class App extends React.Component {
             }
             else if (item === "repeater") {
                 this.setState((state) => (state.currentCoins = state.currentCoins - state.shop.repeater))
-                this.setState((state) => (state.shop.repeater= state.shop.repeater*state.shop.repeater))
+                this.setState((state) => (state.shop.repeater= (state.shop.repeater*state.shop.repeater)/2))
                 this.setState((state) => (state.repeater++))
             }
             else {
