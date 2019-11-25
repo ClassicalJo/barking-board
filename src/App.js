@@ -10,7 +10,7 @@ class App extends React.Component {
             currentStyleSelector: "lines",
             currentColorSelector: "#000000",
             currentTimesSelector: 1,
-            currentCoins: 0,
+            currentCoins: 10000,
             colorroulette: true,
             styleroulette: true,
             colors: {
