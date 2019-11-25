@@ -10,40 +10,15 @@ class App extends React.Component {
             currentStyleSelector: "lines",
             currentColorSelector: "#000000",
             currentTimesSelector: 1,
-            currentCoins: 0,
+            currentCoins: 10000,
             colorroulette: true,
             styleroulette: true,
+            canvas: {
+                height: 400,
+                width: 500,
+            },
             styles: {
-                lines: {
-                    currentLineStyle: "upperleft",
-                    bought: true,
-                    upperleft: {
-                        bought: true,
-                        x: 0,
-                        y: 0,
-                    },
-                    upperright: {
-                        bought: false,
-                        x: 500,
-                        y: 0,
-                    },
-                    bottomleft: {
-                        bought: false,
-                        x: 0,
-                        y: 500,
-                    },
-                    bottomright: {
-                        bought: false,
-                        x: 500,
-                        y: 500
-                    }
-                },
-                triangles: false,
-                squares: false,
-                rectangles: false,
-                points4: false,
-                points5: false,
-                circles: false,
+
             },
             colors: {
                 "#000000": true,
@@ -70,8 +45,63 @@ class App extends React.Component {
         this.handleOnChangeColorSelector = this.handleOnChangeColorSelector.bind(this)
         this.handleOnChangeStyleRoulette = this.handleOnChangeStyleRoulette.bind(this)
         this.handleOnChangeColorRoulette = this.handleOnChangeColorRoulette.bind(this)
+    }
 
-
+    componentDidMount() {
+        this.setState((prevState => ({
+            styles: {
+                ...prevState.styles,
+                lines: {
+                    currentLineStyle: "upperleft",
+                    bought: true,
+                    upperleft: {
+                        bought: true,
+                        x: 0,
+                        y: 0,
+                    },
+                    upperright: {
+                        bought: false,
+                        x: this.state.canvas.width,
+                        y: 0,
+                    },
+                    bottomleft: {
+                        bought: false,
+                        x: 0,
+                        y: this.state.canvas.height,
+                    },
+                    bottomright: {
+                        bought: false,
+                        x: this.state.canvas.width,
+                        y: this.state.canvas.height,
+                    }
+                },
+                triangles: {
+                    bought: false,
+                },
+                squares: {
+                    currentTriangleStyle: "simple",
+                    bought: false,
+                    simple: {
+                        bought: true
+                    },
+                    filled: {
+                        bought: false
+                    },
+                },
+                rectangles: {
+                    bought: false,
+                },
+                points4: {
+                    bought: false,
+                },
+                points5: {
+                    bought: false,
+                },
+                circles: {
+                    bought: false,
+                },
+            }
+        })))
     }
 
     render() {
@@ -80,7 +110,7 @@ class App extends React.Component {
                 <h1 className="add-shadow">🐶 Barking Board 🐕</h1>
                 <div id="main-screen">
                     <div className="add-shadow board">
-                        <canvas ref="canvas" id="barking-board" height="400" width="500"></canvas>
+                        <canvas ref="canvas" id="barking-board" height={this.state.canvas.height} width={this.state.canvas.width}></canvas>
                         <div className="controls">
                             <input ref="timesselector" type="number" defaultValue={this.currentTimesSelector} onChange={this.handleOnChangeTimesSelector}></input>
                             <input type="button" value="draw" onClick={() => this.draw(this.state.currentTimesSelector)} />
@@ -158,25 +188,34 @@ class App extends React.Component {
     }
 
     buy(event) {
-        let boughtStyle = event.target.attributes.buystyle.nodeValue
-        this.setState((state) => (state.currentCoins = state.currentCoins - 10))
-        this.setState((prevState => ({
-            styles: {
-                ...prevState.styles,
-                [boughtStyle]: true
-            }
-        })))
+        if (this.state.currentCoins < 10) { alert("You don't have enough borkCoins, BORK") }
+        else {
+            let boughtStyle = event.target.attributes.buystyle.nodeValue
+            this.setState((state) => (state.currentCoins = state.currentCoins - 10))
+            this.setState((prevState => ({
+                styles: {
+                    ...prevState.styles,
+                    [boughtStyle]: {
+                        ...prevState[boughtStyle],
+                        bought: true
+                    }
+                }
+            })))
+        }
     }
 
     buyColor() {
-        let colorBought = this.refs.color.refs.color.value
-        this.setState((state) => (state.currentCoins = state.currentCoins - 10))
-        this.setState((prevState => ({
-            colors: {
-                ...prevState.colors,
-                [colorBought]: true
-            }
-        })))
+        if (this.state.currentCoins < 10) { alert("You don't have enough borkCoins, BORK") }
+        else {
+            let colorBought = this.refs.color.refs.color.value
+            this.setState((state) => (state.currentCoins = state.currentCoins - 5))
+            this.setState((prevState => ({
+                colors: {
+                    ...prevState.colors,
+                    [colorBought]: true
+                }
+            })))
+        }
     }
 
     draw(times) {
