@@ -87,6 +87,16 @@ input[type='button']:hover {
 	margin-bottom: 1rem;
 }
 
+.buy-styles input {
+	min-width: 95%;
+	background: #869de4;
+	text-align: center;
+    font-size: 1rem;
+    font-weight: 300;
+    color: white;
+    
+}
+
 .coins {
 	padding: 1rem;
 	border-radius: 8px;
