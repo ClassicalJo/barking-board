@@ -1,6 +1,8 @@
 import React from "react"
 import BuyStyle from "./BuyStyle"
 import BuyColor from "./BuyColor"
+import StyleSelector from "./StyleSelector"
+
 class App extends React.Component {
     constructor(props) {
         super(props)
@@ -12,16 +14,41 @@ class App extends React.Component {
             colorroulette: true,
             styleroulette: true,
             styles: {
-                lines: true,
+                lines: {
+                    currentLineStyle: "upperleft",
+                    bought: true,
+                    upperleft: {
+                        bought: true,
+                        x: 0,
+                        y: 0,
+                    },
+                    upperright: {
+                        bought: false,
+                        x: 500,
+                        y: 0,
+                    },
+                    bottomleft: {
+                        bought: false,
+                        x: 0,
+                        y: 500,
+                    },
+                    bottomright: {
+                        bought: false,
+                        x: 500,
+                        y: 500
+                    }
+                },
                 triangles: false,
                 squares: false,
                 rectangles: false,
                 points4: false,
+                points5: false,
                 circles: false,
             },
             colors: {
                 "#000000": true,
-            }
+            },
+
 
         }
         this.buy = this.buy.bind(this)
@@ -34,27 +61,17 @@ class App extends React.Component {
         this.drawRectangle = this.drawRectangle.bind(this)
         this.drawPoints = this.drawPoints.bind(this)
         this.drawPoints4 = this.drawPoints4.bind(this)
+        this.drawPoints5 = this.drawPoints5.bind(this)
         this.drawCircle = this.drawCircle.bind(this)
         this.drawGradient = this.drawGradient.bind(this)
         this.handleOnChangeTimesSelector = this.handleOnChangeTimesSelector.bind(this)
         this.handleOnChangeStyleSelector = this.handleOnChangeStyleSelector.bind(this)
+        this.handleOnChangeLineStyleSelector = this.handleOnChangeLineStyleSelector.bind(this)
         this.handleOnChangeColorSelector = this.handleOnChangeColorSelector.bind(this)
         this.handleOnChangeStyleRoulette = this.handleOnChangeStyleRoulette.bind(this)
         this.handleOnChangeColorRoulette = this.handleOnChangeColorRoulette.bind(this)
 
-    }
 
-    componentDidMount() {
-        this.setState({
-            line: {
-                corner1: true,
-                corner2: false,
-                corner3: false,
-                corner4: false,
-                randomCorner: false,
-            },
-
-        })
     }
 
     render() {
@@ -80,14 +97,13 @@ class App extends React.Component {
                             type="checkbox"
                             checked={this.state.colorroulette}
                             onChange={this.handleOnChangeColorRoulette} />
-                            <select ref="styleselector" onChange={this.handleOnChangeStyleSelector}>
-                                {Object.keys(this.state.styles).map((x) => <option
-                                    disabled={!this.state.styles[x]}
-                                    key={x}
-                                    value={x}>
-                                    {x}
-                                </option>)}
-                            </select>
+                <StyleSelector
+                    ref="styleselector"
+                    styles={this.state.styles}
+                    currentStyleSelector={this.state.currentStyleSelector}
+                    onChange={this.handleOnChangeStyleSelector}
+                    onChangeLineStyleSelector={this.handleOnChangeLineStyleSelector} />
+                      
                             <select ref="colorselector" onChange={this.handleOnChangeColorSelector}>
                                 {Object.keys(this.state.colors).map((x) => <option
                                     key={x}
@@ -114,7 +130,20 @@ class App extends React.Component {
     }
 
     handleOnChangeStyleSelector() {
-        this.setState({ currentStyleSelector: this.refs.styleselector.value })
+        this.setState({ currentStyleSelector: this.refs.styleselector.refs.stylelist.value })
+    }
+
+    handleOnChangeLineStyleSelector() {
+        this.setState((prevState => ({
+            styles: {
+                ...prevState.styles,
+                lines: {
+                    ...prevState.styles.lines,
+                    currentLineStyle: this.refs.styleselector.refs.linestyles.refs.linestyleselector.value
+                }
+            }
+        })))
+
     }
 
     handleOnChangeColorSelector() {
@@ -150,10 +179,10 @@ class App extends React.Component {
         })))
     }
 
-    draw(number) {
+    draw(times) {
         let chosenColor = this.state.currentColorSelector
+        let chosenStyle = this.state.currentStyleSelector
         let functions = {
-            cs: this.state.currentStyleSelector,
             "lines": this.drawLine,
             "circles": this.drawCircle,
             "triangles": this.drawTriangle,
@@ -161,9 +190,10 @@ class App extends React.Component {
             "rectangles": this.drawRectangle,
             "gradients": this.drawGradient,
             "points4": this.drawPoints4,
+            "points5": this.drawPoints5,
         }
 
-        for (let i = 0; i < number; i++) {
+        for (let i = 0; i < times; i++) {
             this.setState((state) => state.currentCoins++)
 
             if (this.state.colorroulette === true) {
@@ -176,12 +206,12 @@ class App extends React.Component {
                 let styleArray = Object.keys(this.state.styles)
                 let boughtStyles = []
                 styleArray.map((x) => {
-                    if (this.state.styles[x] === true) { boughtStyles.push(x) }
+                    if (this.state.styles[x].bought === true) { boughtStyles.push(x) }
                 })
                 let randomIndex = Math.floor(Math.random() * boughtStyles.length)
-                this.setState({ currentStyleSelector: boughtStyles[randomIndex] })
+                chosenStyle = boughtStyles[randomIndex]
             }
-            functions[functions.cs](chosenColor)
+            functions[chosenStyle](chosenColor)
         }
     }
 
@@ -192,12 +222,13 @@ class App extends React.Component {
     }
 
     drawLine(color) {
+        let currentLineStyle = this.state.styles.lines.currentLineStyle
         let ctx = this.refs.canvas.getContext("2d")
         let destinyX = random(500)
         let destinyY = random(500)
         ctx.strokeStyle = color
         ctx.beginPath();
-        ctx.moveTo(0, 0);
+        ctx.moveTo(this.state.styles.lines[currentLineStyle].x, this.state.styles.lines[currentLineStyle].y)
         ctx.lineTo(destinyX, destinyY);
         ctx.stroke();
     }
@@ -243,6 +274,10 @@ class App extends React.Component {
 
     drawPoints4(color) {
         this.drawPoints(4, color)
+    }
+
+    drawPoints5(color) {
+        this.drawPoints(5, color)
     }
 
     drawCircle(color) {
