@@ -76,43 +76,51 @@ class App extends React.Component {
 
     render() {
         return (
-            <div>
-                <canvas ref="canvas" id="barking-board" height="500" width="500"></canvas>
-                <input ref="timesselector" type="number" defaultValue={this.currentTimesSelector} onChange={this.handleOnChangeTimesSelector}></input>
-                <input type="button" value="draw" onClick={() => this.draw(this.state.currentTimesSelector)} />
-                <input type="button" value="clear" onClick={this.clear} />
-                <a>Random style: </a>
-                <input
-                    ref="styleroulette"
-                    type="checkbox"
-                    checked={this.state.styleroulette}
-                    onChange={this.handleOnChangeStyleRoulette} />
-                <a>Random color: </a>
-                <input
-                    ref="colorroulette"
-                    type="checkbox"
-                    checked={this.state.colorroulette}
-                    onChange={this.handleOnChangeColorRoulette} />
+            <div id="App">
+                <h1 className="add-shadow">🐶 Barking Board 🐕</h1>
+                <div id="main-screen">
+                    <div className="add-shadow board">
+                        <canvas ref="canvas" id="barking-board" height="400" width="500"></canvas>
+                        <div className="controls">
+                            <input ref="timesselector" type="number" defaultValue={this.currentTimesSelector} onChange={this.handleOnChangeTimesSelector}></input>
+                            <input type="button" value="draw" onClick={() => this.draw(this.state.currentTimesSelector)} />
+                            <input type="button" value="clear" onClick={this.clear} />
+                            <a>Random style: </a>
+                            <input
+                            ref="styleroulette"
+                            type="checkbox"
+                            checked={this.state.styleroulette}
+                            onChange={this.handleOnChangeStyleRoulette} />
+                            <a>Random color: </a>
+                            <input
+                            ref="colorroulette"
+                            type="checkbox"
+                            checked={this.state.colorroulette}
+                            onChange={this.handleOnChangeColorRoulette} />
                 <StyleSelector
                     ref="styleselector"
                     styles={this.state.styles}
                     currentStyleSelector={this.state.currentStyleSelector}
                     onChange={this.handleOnChangeStyleSelector}
                     onChangeLineStyleSelector={this.handleOnChangeLineStyleSelector} />
-
-                <select ref="colorselector" onChange={this.handleOnChangeColorSelector}>
-                    {Object.keys(this.state.colors).map((x) => <option
-                        key={x}
-                        value={x}
-                        style={{ backgroundColor: x }}
-                    >
-                        {x}
-                    </option>)}
-
-                </select>
-                <div>Coins: {this.state.currentCoins}</div>
-                <BuyStyle styles={this.state.styles} onClick={this.buy} />
-                <BuyColor ref="color" onClick={this.buyColor} />
+                      
+                            <select ref="colorselector" onChange={this.handleOnChangeColorSelector}>
+                                {Object.keys(this.state.colors).map((x) => <option
+                                    key={x}
+                                    value={x}
+                                    style={{ backgroundColor: x }}
+                                >
+                                    {x}
+                                </option>)}
+                            </select>`
+                        </div>
+                    </div>
+                    <div className="add-shadow store">
+                        <div className="coins">Coins: {this.state.currentCoins}</div>
+                        <BuyStyle styles={this.state.styles} onClick={this.buy} />
+                        <BuyColor ref="color" onClick={this.buyColor} />
+                    </div>
+                </div>
             </div>
         )
     }
