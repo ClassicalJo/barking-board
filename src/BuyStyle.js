@@ -7,14 +7,14 @@ class BuyStyle extends React.Component {
         stylesKeys.shift()
 
         return (
-            <div>
-                <div>{stylesKeys.map((x) => <div
+            <div className="buy-styles">
+                <div className="style">{stylesKeys.map((x) => <div
                     onClick={this.props.onClick}
                     buystyle={x}>
-                    Buy {x} for 10 borkcoins
+                    <p>Buy {x} for 10 borkcoins</p>
                 </div>)}
-                    <div>
-                        {mappedStylesKeys.map((x) => x[1]===false && <div>and buy filled {x[0]} for moar money!</div>)}
+                    <div className="style">
+                        {mappedStylesKeys.map((x) => x[1]===false && <div><p>and buy filled {x[0]} for moar money!</p></div>)}
                     </div>
                 </div>
 
