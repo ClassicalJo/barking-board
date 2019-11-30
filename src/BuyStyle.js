@@ -3,8 +3,9 @@ import React from 'react'
 class BuyStyle extends React.Component {
     render() {
         let stylesKeys = Object.keys(this.props.styles)
+        stylesKeys.shift()  
         let mappedStylesKeys = stylesKeys.map((key) => { return [key, this.props.styles[key].bought] })
-        stylesKeys.shift()        
+              
         return (
             <div>
                 <div className="buy-styles">{stylesKeys.map((x) => !this.props.styles[x].bought && <div><input
@@ -15,7 +16,7 @@ class BuyStyle extends React.Component {
                 /></div>)}
                 </div>
                 <div className="style">
-                    {mappedStylesKeys.map((x) => x[1] === true  && !this.props.styles[x[0]].filled.bought &&
+                    {mappedStylesKeys.map((x) => x[1] === true  && !this.props.styles[x[0]].subStyles.filled.bought &&
                         <div>
                             <p
                                 onClick={this.props.onClick}
@@ -26,7 +27,10 @@ class BuyStyle extends React.Component {
 
                 <div className="style"
                 onClick={this.props.onClick}
-                buy="repeater">And buy a repeater for A LOT of coins!</div>
+                buy="repeater">Buy a repeater for 100 coins!</div>
+                <div className="style"
+                onClick={this.props.onClick}
+                buy="bot">Buy a bot for 100 coins!</div>
             </div>
         )
     }

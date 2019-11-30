@@ -17,4 +17,4 @@ class Index extends React.Component {
         return <App canvas={this.state.canvas}/>
     }
 }
-ReactDOM.render(<Index />, document.getElementById("root"))
+ReactDOM.render(<Index />, document.getElementById("root")) 

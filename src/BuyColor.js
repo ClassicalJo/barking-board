@@ -7,15 +7,21 @@ class BuyColor extends React.Component {
                 <p>Buy a color for 5 borkcoins</p>
                 <input
                     type="color"
-                    ref="color" />
+                    ref={this.props.innerRef} />
                 <input
                     buy='color'
                     type="button"
                     value="Buy color"
+                    onClick={this.props.onClick} />
+                <input
+                    buy="random-color"
+                    type="button"
+                    value="@"
                     onClick={this.props.onClick} />
             </div>
         )
     }
 }
 
-export default BuyColor
+export default React.forwardRef((props, ref) => <BuyColor
+    innerRef={ref} {...props} />);
