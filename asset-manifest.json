@@ -1,21 +1,21 @@
 {
   "files": {
     "main.css": "/barking-board/static/css/main.481896a0.chunk.css",
-    "main.js": "/barking-board/static/js/main.205aad39.chunk.js",
-    "main.js.map": "/barking-board/static/js/main.205aad39.chunk.js.map",
+    "main.js": "/barking-board/static/js/main.4cc3ef7d.chunk.js",
+    "main.js.map": "/barking-board/static/js/main.4cc3ef7d.chunk.js.map",
     "runtime-main.js": "/barking-board/static/js/runtime-main.d541fa05.js",
     "runtime-main.js.map": "/barking-board/static/js/runtime-main.d541fa05.js.map",
-    "static/js/2.391f45b4.chunk.js": "/barking-board/static/js/2.391f45b4.chunk.js",
-    "static/js/2.391f45b4.chunk.js.map": "/barking-board/static/js/2.391f45b4.chunk.js.map",
+    "static/js/2.d658ee77.chunk.js": "/barking-board/static/js/2.d658ee77.chunk.js",
+    "static/js/2.d658ee77.chunk.js.map": "/barking-board/static/js/2.d658ee77.chunk.js.map",
     "index.html": "/barking-board/index.html",
-    "precache-manifest.368e3577807de91dcb05bae5a6764b19.js": "/barking-board/precache-manifest.368e3577807de91dcb05bae5a6764b19.js",
+    "precache-manifest.22b39d7ad1df22be35382602903d7f85.js": "/barking-board/precache-manifest.22b39d7ad1df22be35382602903d7f85.js",
     "service-worker.js": "/barking-board/service-worker.js",
     "static/css/main.481896a0.chunk.css.map": "/barking-board/static/css/main.481896a0.chunk.css.map"
   },
   "entrypoints": [
     "static/js/runtime-main.d541fa05.js",
-    "static/js/2.391f45b4.chunk.js",
+    "static/js/2.d658ee77.chunk.js",
     "static/css/main.481896a0.chunk.css",
-    "static/js/main.205aad39.chunk.js"
+    "static/js/main.4cc3ef7d.chunk.js"
   ]
 }
