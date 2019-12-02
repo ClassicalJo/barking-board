@@ -5,6 +5,59 @@ class BarkingBot extends React.Component {
         super(props);
         this.state = {
             paused: false,
+            checkedStyles: {
+                lines: {
+                    available: true,
+                    subStyles: {
+                        upperleft: true,
+                        upperright: true,
+                        bottomleft: true,
+                        bottomright: true
+                    }
+                },
+                triangles: {
+                    available: false,
+                    subStyles: {
+                        simple: false,
+                        filled: false
+                    }
+                },
+                squares: {
+                    available: false,
+                    subStyles: {
+                        simple: false,
+                        filled: false
+                    }
+                },
+                rectangles: {
+                    available: false,
+                    subStyles: {
+                        simple: false,
+                        filled: false
+                    }
+                },
+                points4: {
+                    available: false,
+                    subStyles: {
+                        simple: false,
+                        filled: false
+                    }
+                },
+                points5: {
+                    available: false,
+                    subStyles: {
+                        simple: false,
+                        filled: false
+                    }
+                },
+                circles: {
+                    available: false,
+                    subStyles: {
+                        simple: false,
+                        filled: false
+                    }
+                },
+            }
         }
         this.oneAction = this.oneAction.bind(this)
         this.drawLine = this.drawLine.bind(this)
@@ -12,11 +65,12 @@ class BarkingBot extends React.Component {
         this.drawPoints4 = this.drawPoints4.bind(this)
         this.drawPoints5 = this.drawPoints5.bind(this)
         this.handleClear = this.handleClear.bind(this)
-
+        this.handleOnClickBot = this.handleOnClickBot.bind(this)
+        this.handleOnChangeCheckbox = this.handleOnChangeCheckbox.bind(this)
     }
 
     handleOnClickBot() {
-        this.setState((state) => ({ paused: !state.paused}))
+        this.setState((state) => ({ paused: !state.paused }))
     }
 
     handleClear() {
@@ -24,22 +78,68 @@ class BarkingBot extends React.Component {
         ctx.clearRect(0, 0, this.refs[this.props.botId].width, this.refs[this.props.botId].height);
     }
 
+    componentDidUpdate(prevProps) {
+        if (prevProps.styles !== this.props.styles) {
+            let stylesBought = []
+            Object.keys(this.props.styles).forEach((key) => { if (this.props.styles[key].bought === true) { stylesBought.push(key) } })
+            stylesBought.forEach((key) => {
+                this.setState((prevState) => ({
+                    checkedStyles: {
+                        ...prevState.checkedStyles,
+                        [key]: {
+                            ...prevState.checkedStyles[key],
+                            available: true
+                        }
+
+                    }
+                }))
+
+                let subStylesOf = Object.keys(this.props.styles[key].subStyles)
+                subStylesOf.forEach((otherKey) => {
+                    if (this.props.styles[key].subStyles[otherKey].bought === true) {
+                        this.setState((prevState) => ({
+                            checkedStyles: {
+                                ...prevState.checkedStyles,
+                                [key]: {
+                                    ...prevState.checkedStyles[key],
+                                    subStyles: {
+                                        ...prevState.checkedStyles[key].subStyles,
+                                        [otherKey]: true
+                                    }
+                                }
+
+                            }
+                        }))
+                    }
+                })
+            })
+        }
+    }
+
+    componentDidMount() {
+        setInterval(() => { this.oneAction() }, 1000)
+    }
+
     oneAction() {
         if (this.state.paused === true) { return "" }
         else {
             let botId = this.props.botId
             let ctx = this.refs[botId].getContext("2d")
-            
-            let stylesArray = Object.keys(this.state.styles)
-            let randomStyleIndex = Math.floor(Math.random() * stylesArray.length)
-            let randomStyle = stylesArray[randomStyleIndex]
 
-            let subStylesArray = Object.keys(this.state.styles[randomStyle])
-            let randomSubStyleIndex = Math.floor(Math.random() * subStylesArray.length)
-            let randomSubStyle = this.state.styles[randomStyle][randomSubStyleIndex]
+            let checkedStyles = []
+            Object.keys(this.state.checkedStyles).forEach((key) => { if (this.state.checkedStyles[key].available === true) { checkedStyles.push(key) } })
+            if (checkedStyles.length === 0) { return }
+            let randomStyleIndex = random(checkedStyles.length)
+            let randomStyle = checkedStyles[randomStyleIndex]
+
+            let checkedSubstyles = []
+            Object.keys(this.state.checkedStyles[randomStyle].subStyles).forEach((key) => { if (this.state.checkedStyles[randomStyle].subStyles[key] === true) { checkedSubstyles.push(key) } })
+            if (checkedSubstyles.length === 0) { return }
+            let randomSubStyleIndex = random(checkedSubstyles.length)
+            let randomSubStyle = checkedSubstyles[randomSubStyleIndex]
 
             let colorArray = Object.keys(this.props.colors)
-            let randomColorIndex = Math.floor(Math.random() * colorArray.length)
+            let randomColorIndex = random(colorArray.length)
             let randomColor = colorArray[randomColorIndex]
 
             let drawingFunctions = {
@@ -51,49 +151,11 @@ class BarkingBot extends React.Component {
                 "points5": this.drawPoints5,
                 "circles": this.drawCircle,
             }
-            
             drawingFunctions[randomStyle](randomColor, randomSubStyle, ctx, random(this.refs[botId].width), random(this.refs[botId].height))
         }
 
     }
 
-    componentDidUpdate(prevProps) {
-        if (prevProps.styles !== this.props.styles) {
-            let stylesBought = []
-            Object.keys(this.props.styles).map((x) => { if (this.props.styles[x].bought === true) { stylesBought.push(x) } })
-            stylesBought.map((key) => {
-                let subStylesOf = Object.keys(this.props.styles[key].subStyles)
-                let subStylesOfBought = []
-                subStylesOf.map((otherKey) => { if (this.props.styles[key].subStyles[otherKey].bought === true) { subStylesOfBought.push(otherKey) } })
-                this.setState((prevState) => ({
-                    styles: {
-                        ...prevState.styles,
-                        [key]: subStylesOfBought
-                    }
-                }))
-            })
-        }
-    }
-
-    componentDidMount() {
-        let stylesBought = []
-        Object.keys(this.props.styles).map((x) => { if (this.props.styles[x].bought === true) { stylesBought.push(x) } })
-        stylesBought.map((key) => {
-            let subStylesOf = Object.keys(this.props.styles[key].subStyles)
-            let subStylesOfBought = []
-            subStylesOf.map((otherKey) => { if (this.props.styles[key].subStyles[otherKey].bought === true) { subStylesOfBought.push(otherKey) } })
-            console.log(subStylesOfBought)
-            this.setState((prevState) => ({
-                styles: {
-                    ...prevState.styles,
-                    [key]: subStylesOfBought
-                }
-            }))
-        })
-        setInterval(() => { this.oneAction() }, 1000)
-    }
-
-    
     drawLine(color, subStyle, context, x, y) {
         context.strokeStyle = color
         context.beginPath();
@@ -184,11 +246,58 @@ class BarkingBot extends React.Component {
         }
     }
 
+    handleOnChangeCheckbox(event) {
+        let clickedStyle = event.target.value
+        if (clickedStyle === "substyle") {
+            let mainStyle = event.target.attributes.mainstyle.value
+            let subStyle = event.target.attributes.substyle.value
+            let toggledValue = !this.state.checkedStyles[mainStyle].subStyles[subStyle]
+            this.setState((prevState) => ({
+                checkedStyles: {
+                    ...prevState.checkedStyles,
+                    [mainStyle]: {
+                        ...prevState.checkedStyles[mainStyle],
+                        subStyles: {
+                            ...prevState.checkedStyles[mainStyle].subStyles,
+                            [subStyle]: toggledValue
+                        }
+                    }
+                }
+            }))
+
+        }
+
+        else {
+            let toggledValue = !this.state.checkedStyles[clickedStyle].available
+            this.setState((prevState) => ({
+                checkedStyles: {
+                    ...prevState.checkedStyles,
+                    [clickedStyle]: {
+                        ...prevState.checkedStyles[clickedStyle],
+                        available: toggledValue
+                    }
+                }
+            }));
+        }
+    }
+
     render() {
         return (
             <div>
-            <canvas className="bot" ref={this.props.botId} width="500" height="500" onClick={() => this.handleOnClickBot()} />
-            <input type="button" value="Clear" onClick={() => this.handleClear()}/>
+                <canvas className="bot" ref={this.props.botId} width="500" height="500" onClick={() => this.handleOnClickBot()} />
+                <input type="button" value="Clear" onClick={() => this.handleClear()} />
+                <ul>{Object.keys(this.props.styles).forEach((key) => {
+                    if (this.props.styles[key].bought === true) {
+                        return <li>{key}
+                            <input type="checkbox" checked={this.state.checkedStyles[key].available} value={key} onChange={this.handleOnChangeCheckbox} />
+                            {Object.keys(this.props.styles[key].subStyles).forEach((anotherKey) => {
+                                if (this.props.styles[key].subStyles[anotherKey].bought === true) {
+                                    return <li>{anotherKey} <input type="checkbox" value="substyle" mainstyle={key} substyle={anotherKey} disabled={!this.state.checkedStyles[key].available} checked={this.state.checkedStyles[key].subStyles[anotherKey]} onChange={this.handleOnChangeCheckbox} /></li>
+                                }
+                            })}
+                        </li>
+                    }
+                })}</ul>
             </div>
         )
     }

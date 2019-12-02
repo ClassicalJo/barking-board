@@ -153,7 +153,7 @@ class App extends React.Component {
     render() {
         return (
             <div id="App">
-                <h1 className="add-shadow">🐶 Barking Board 🐕</h1>
+                <h1 className="add-shadow"><span role="img" aria-label="dog">🐶</span> Barking Board <span role="img" aria-label="another dog">🐕</span></h1>
                 <div id="main-screen">
                     <div className="add-shadow board">
                         <canvas
@@ -170,13 +170,13 @@ class App extends React.Component {
                                 onChange={() => this.handleOnChangeTimesSelector()}>
                             </input>
                             <input type="button" value="clear" onClick={this.clear} />
-                            <a>Random style: </a>
+                            <p>Random style: </p>
                             <input
                                 ref="styleroulette"
                                 type="checkbox"
                                 checked={this.state.styleroulette}
                                 onChange={() => this.handleOnChangeStyleRoulette()} />
-                            <a>Random color: </a>
+                            <p>Random color: </p>
                             <input
                                 ref="colorroulette"
                                 type="checkbox"
@@ -208,8 +208,8 @@ class App extends React.Component {
                         <BuyColor ref="color" onClick={this.buy} />
                     </div>
                     {this.state.botsBought > 0 &&
-                        <div>{this.state.bots.map((key) => {
-                            return <div className="add-shadow board"><BarkingBot botId={`bot${key}`} colors={this.state.colors} styles={this.state.styles} botsBought={this.state.botsBought} onClick={() => this.handleOnClickBot()} /></div>
+                        <div>{this.state.bots.forEach((key) => {
+                            return <div key={`bot${key}`} className="add-shadow board"><BarkingBot botId={`bot${key}`} colors={this.state.colors} styles={this.state.styles} botsBought={this.state.botsBought} onClick={() => this.handleOnClickBot()} /></div>
                         })}</div>
                     }
                 </div>
@@ -282,7 +282,7 @@ class App extends React.Component {
 
             }
             else if (item === "filled") {
-                let styleFamily = event.target.attributes.styleFamily.nodeValue
+                let styleFamily = event.target.attributes.stylefamily.nodeValue
                 this.setState((state) => (state.currentCoins = state.currentCoins - state.shop[item]))
                 this.setState((prevState) => ({
                     styles: {
@@ -327,9 +327,6 @@ class App extends React.Component {
     }
 
     draw(times) {
-        let chosenColor = this.state.currentColorSelector
-        let chosenStyle = this.state.currentStyleSelector
-        let chosenSubStyle = this.state.styles[chosenStyle].currentSubStyleSelector
         let ctx = this.refs.canvas.getContext("2d")
         let drawingFunctions = {
             "lines": this.drawLine,
@@ -340,7 +337,11 @@ class App extends React.Component {
             "points5": this.drawPoints5,
             "circles": this.drawCircle,
         }
+
         for (let i = 0; i < times; i++) {
+            let chosenColor = this.state.currentColorSelector
+            let chosenStyle = this.state.currentStyleSelector
+            let chosenSubStyle = this.state.styles[chosenStyle].currentSubStyleSelector
             this.setState((state) => state.currentCoins++)
             if (this.state.colorroulette === true) {
                 let colorArray = Object.keys(this.state.colors)
@@ -351,7 +352,7 @@ class App extends React.Component {
             if (this.state.styleroulette === true) {
                 let styleArray = Object.keys(this.state.styles)
                 let boughtStyles = []
-                styleArray.map((x) => {
+                styleArray.forEach((x) => {
                     if (this.state.styles[x].bought === true) { boughtStyles.push(x) }
                 })
                 let randomIndex = Math.floor(Math.random() * boughtStyles.length)
@@ -359,7 +360,7 @@ class App extends React.Component {
 
                 let subStyleArray = Object.keys(this.state.styles[chosenStyle].subStyles)
                 let boughtSubStyles = []
-                subStyleArray.map((x) => {
+                subStyleArray.forEach((x) => {
                     if (this.state.styles[chosenStyle].bought === true) { boughtSubStyles.push(x) }
                 })
                 let anotherRandomIndex = Math.floor(Math.random() * boughtSubStyles.length)
