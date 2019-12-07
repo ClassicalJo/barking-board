@@ -8,10 +8,26 @@ class Index extends React.Component {
         super(props);
         this.state = {
             canvas: {
-                width: 800,
-                height: 500,
+                width: window.innerWidth * 0.5,
+                height: window.innerHeight * 0.5,
             }
         }
+        this.updateCanvas = this.updateCanvas.bind(this)
+    }
+
+    updateCanvas = () => {
+
+        this.setState((prevState) => ({
+            canvas: {
+                ...prevState.canvas,
+                width: window.innerWidth * 0.5,
+                height: window.innerHeight * 0.5,
+            }
+        }))
+    }
+
+    componentDidMount() {
+        window.addEventListener('resize', this.updateCanvas)
     }
     render(){
         return <App canvas={this.state.canvas}/>

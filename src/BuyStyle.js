@@ -7,7 +7,7 @@ class BuyStyle extends React.Component {
         let mappedStylesKeys = stylesKeys.map((key) => { return [key, this.props.styles[key].bought] })
 
         return (
-            <div>
+            <div className="store-extra">
                 <ul className="buy-styles"> {stylesKeys.map((x) => !this.props.styles[x].bought && <li
                     key={x}
                     onClick={this.props.onClick}

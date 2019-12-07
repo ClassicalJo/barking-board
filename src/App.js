@@ -4,6 +4,7 @@ import BuyColor from "./BuyColor"
 import StyleSelector from "./StyleSelector"
 import SubStyleSelector from "./SubStyleSelector"
 import BarkingBot from "./BarkingBot"
+import Collapsible from "./CollapsibleList"
 
 class App extends React.Component {
     constructor(props) {
@@ -150,19 +151,49 @@ class App extends React.Component {
         this.drawCircle = this.drawCircle.bind(this)
     }
 
+    componentDidUpdate(prevProps) {
+        if (prevProps !== this.props) {
+            this.setState((prevState, props) => ({
+                styles: {
+                    ...prevState.styles,
+                    lines: {
+                        ...prevState.styles.lines,
+                        subStyles: {
+                            ...prevState.styles.lines.subStyles,
+                            upperright: {
+                                ...prevState.styles.lines.subStyles.upperright,
+                                x: props.canvas.width
+                            },
+                            bottomleft: {
+                                ...prevState.styles.lines.subStyles.bottomleft,
+                                y: props.canvas.height
+                            },
+                            bottomright: {
+                                ...prevState.styles.lines.subStyles.bottomright,
+                                x: props.canvas.width,
+                                y: props.canvas.height,
+                            }
+
+                        }
+                    }
+                }
+
+            }))
+        }
+    }
     render() {
         return (
             <div id="App">
-                <h1 className="add-shadow"><span role="img" aria-label="dog">🐶</span> Barking Board <span role="img" aria-label="another dog">🐕</span></h1>
                 <div id="main-screen">
                     <div className="add-shadow board">
                         <canvas
+                            id="canvas"
                             ref="canvas"
                             width={this.props.canvas.width}
                             height={this.props.canvas.height}
                             onClick={() => this.draw(this.state.currentRepeaterSelector)}>
                         </canvas>
-                        <div className="controls">
+                        <Collapsible listClassName="controls" title='Controls'>
                             <input
                                 ref="timesselector"
                                 type="number"
@@ -199,21 +230,21 @@ class App extends React.Component {
                                     style={{ backgroundColor: x }}>
                                     {x}
                                 </option>)}
-                            </select>`
-                        </div>
+                            </select>
+                        </Collapsible>
                     </div>
                     <div className="add-shadow store">
                         <div className="coins">Coins: {this.state.currentCoins}</div>
                         <BuyStyle styles={this.state.styles} onClick={this.buy} />
                         <BuyColor ref="color" onClick={this.buy} />
                     </div>
-                    {this.state.botsBought > 0 &&
-                        <div>{this.state.bots.forEach((key) => {
-                            return <div key={`bot${key}`} className="add-shadow board"><BarkingBot botId={`bot${key}`} colors={this.state.colors} styles={this.state.styles} botsBought={this.state.botsBought} onClick={() => this.handleOnClickBot()} /></div>
-                        })}</div>
-                    }
                 </div>
-            </div >
+                {this.state.botsBought > 0 &&
+                    <div className="bots-container">{this.state.bots.map((key) => {
+                        return <BarkingBot botId={`bot${key}`} colors={this.state.colors} styles={this.state.styles} botsBought={this.state.botsBought} onClick={() => this.handleOnClickBot()} />
+                    })}</div>
+                }
+            </div>
         )
     }
 

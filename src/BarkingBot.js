@@ -1,4 +1,5 @@
 import React from 'react'
+import Collapsible from './CollapsibleList'
 
 class BarkingBot extends React.Component {
     constructor(props) {
@@ -283,22 +284,28 @@ class BarkingBot extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className="add-shadow bot-board">
                 <canvas className="bot" ref={this.props.botId} width="500" height="500" onClick={() => this.handleOnClickBot()} />
+                <Collapsible listClassName="available-styles" title="Available styles">
+                    <ul className="unsorted-list">{Object.keys(this.props.styles).map((key) => {
+                        if (this.props.styles[key].bought === true) {
+                            return <Collapsible title={key}>
+                                <div className="bot-style-list">
+                                    <div className="bot-style" key={key}>
+                                        {key}
+                                        <input type="checkbox" checked={this.state.checkedStyles[key].available} value={key} onChange={this.handleOnChangeCheckbox} />
+                                    </div>
+                                    {Object.keys(this.props.styles[key].subStyles).map((anotherKey) => {
+                                        return <div className="bot-style" key={anotherKey}>{anotherKey} <input type="checkbox" value="substyle" mainstyle={key} substyle={anotherKey} disabled={!this.state.checkedStyles[key].available} checked={this.state.checkedStyles[key].subStyles[anotherKey]} onChange={this.handleOnChangeCheckbox} /></div>
+                                    })}
+                                </div>
+                            </Collapsible>
+                        }
+                        return ""
+                    })}</ul>
+                </Collapsible>
                 <input type="button" value="Clear" onClick={() => this.handleClear()} />
-                <ul>{Object.keys(this.props.styles).forEach((key) => {
-                    if (this.props.styles[key].bought === true) {
-                        return <li>{key}
-                            <input type="checkbox" checked={this.state.checkedStyles[key].available} value={key} onChange={this.handleOnChangeCheckbox} />
-                            {Object.keys(this.props.styles[key].subStyles).forEach((anotherKey) => {
-                                if (this.props.styles[key].subStyles[anotherKey].bought === true) {
-                                    return <li>{anotherKey} <input type="checkbox" value="substyle" mainstyle={key} substyle={anotherKey} disabled={!this.state.checkedStyles[key].available} checked={this.state.checkedStyles[key].subStyles[anotherKey]} onChange={this.handleOnChangeCheckbox} /></li>
-                                }
-                            })}
-                        </li>
-                    }
-                })}</ul>
-            </div>
+            </div >
         )
     }
 }

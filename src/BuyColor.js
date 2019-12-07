@@ -16,7 +16,7 @@ class BuyColor extends React.Component {
                 <input
                     buy="random-color"
                     type="button"
-                    value="@"
+                    value="Buy a random color!"
                     onClick={this.props.onClick} />
             </div>
         )

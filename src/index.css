@@ -9,10 +9,6 @@ body {
 	background-image: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
 }
 
-canvas {
-    border: 1px solid black 
-}
-
 select{
     min-width: 5em;
 }
@@ -22,7 +18,7 @@ select:focus{
     color: black;
 }
 
-input, select {
+input, select, .title {
 	height: 2rem;
 	border-radius: 8px;
 	margin: 0 .5rem;
@@ -37,28 +33,93 @@ option{
 #main-screen {
 	display: flex;
 	justify-content: center;
-	padding: 2rem;
-	flex-wrap: wrap;
-}
-
-h1.add-shadow {
-	border-radius: 0;
-	padding: 1rem;
+	padding: 1.5rem;
 }
 
 .board {
-  display: flex;	
-  align-self: center;
-  flex-direction: column;
-  margin-right: 4rem;
+	display: flex;	
+	flex-wrap: wrap;
+	flex: 3;
+	margin: 1rem;
+}
+
+#canvas {
+	border: 1px solid black ;
+	flex: 1 1 100%;
+	height: 70vh;
+	max-width: 100%
 }
 
 .controls {
-	margin-top: 2rem;
+	position: relative;
 	display: flex;
-	align-items: center;
+	flex-direction: column;
+	flex-wrap: wrap;
+	flex: 1;
+}
+.controls > * {
+	display: flex;
+	flex-wrap: wrap;
+	flex: 1;
+	padding: 0 1rem;
+	border: none;
+	background: #0031ca;
+	color: white;
 }
 
+.store {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	margin: 1rem;
+}
+
+.bots-container {
+	display: grid;
+	grid-template-columns: repeat(4, 20%);
+	column-gap: 0.5rem;
+	row-gap: 1rem;
+	margin: 2.5rem;
+	justify-content: space-between;
+}
+
+.bot-board {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.bot {
+	flex: 1 1 100%;
+	background-color: white;
+	width: 100%;
+	height: 100%;
+	transition: all .5s ease-in-out
+}
+
+.bot-board * {
+	font-size: small;
+}
+
+.bot-board > div{
+	flex: 1 1 50%
+}
+
+.unsorted-list {
+	position: absolute;
+	background: skyblue;
+	border-radius: 5px;
+	padding: 5px;
+	border: 1px solid black;
+}
+
+.bot-style-list {
+	position: relative;
+	background: #0031ca;
+	color: white;
+	border-radius: 5px;
+	padding: 5px;
+	border: 1px solid black;
+}
 .add-shadow {
   padding: 2rem;
   border-radius: 1rem;
@@ -82,40 +143,48 @@ input[type='button']:hover {
 .buy-color {
 	display: flex;
 	align-items: center;
+	flex: 1;
+	flex-wrap: wrap;
 }
 
 .style p {
 	margin-bottom: 1rem;
 }
 
-.buy-styles input {
-	min-width: 95%;
-	background: #869de4;
-	text-align: center;
-    font-size: 1rem;
-    font-weight: 300;
-    color: white;
-    
-}
-
 .coins {
 	padding: 1rem;
 	border-radius: 8px;
 	text-align: center;
-	font-size: 1.5rem;
+	font-size: 1rem;
 	font-weight: bold;
 	margin-bottom: 1rem;
 	color: white;
 	background: #3d5afe;	
 }
 
-.bot {
-	background-color: white;
-	width: 300px;
-	height: 300px;
-	transition: all .5s ease-in-out
+
+@media all and (max-width: 1200px) {
+	.bots-container {
+		grid-template-columns: repeat(3, 30%);
+	}
 }
 
-.bot:hover {
-	transform: scale(2);
+
+@media all and (max-width: 1024px) {
+	#main-screen {
+		flex-wrap: wrap;
+	}
+
+	.board {
+		flex: 1 1 100%;
+	}
+	
+	.store {
+		flex: 1 1 100%;
+	}
+
+	.bots-container {
+		grid-template-columns: 100%;
+	}
+
 }
